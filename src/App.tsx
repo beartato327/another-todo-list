@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 //import "./App.css";
-import Item from "./components/Item";
+import ItemCard from "./components/ItemCard";
 import NewCard from "./components/NewCard";
 import { Slide, Typography } from "@mui/material";
 
@@ -22,21 +22,37 @@ function App() {
   ];
 
   const [newItem, setNewItem] = useState(false);
-  const [title, setTitle] = useState("");
+  const [editItem, setEditItem] = useState(false);
+  const [title, setTitle] = useState<string | null>(null);
   const [itemList, setItemList] = useState(dummy_list);
+  const [itemId, setItemId] = useState(0);
 
-  console.log(title);
-  const save = (title: string) => {
-    console.log(dummy_list);
-    const id = dummy_list.length + 1;
+  const handleSave = (title: string) => {
     let newItem = {
-      id: id,
+      id: itemList.length + 1,
       status: false,
       title: title,
       description: "new!",
     };
-    dummy_list.unshift(newItem);
-    setItemList(dummy_list);
+    itemList.unshift(newItem);
+    setItemList(itemList);
+    setNewItem(false);
+  };
+  console.log(title);
+  const handleEdit = (id: number) => {
+    setEditItem(true);
+    setItemId(id);
+
+    setTitle(
+      itemList
+        .filter((index) => index.id === id)
+        .map((obj) => obj.title)
+        .toString()
+    );
+  };
+
+  const handleDelete = (id: number) => {
+    setItemList(itemList.filter((index) => index.id !== id));
   };
 
   return (
@@ -67,17 +83,34 @@ function App() {
         </Box>
         <Stack spacing={2}>
           {newItem ? (
-            <NewCard
+            <ItemCard
               title={title}
               setTitle={setTitle}
+              itemId={itemId}
+              editItem={editItem}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              handleSave={handleSave}
               setNewItem={setNewItem}
-              save={save}
+              newItem={newItem}
             />
           ) : (
             <div></div>
           )}
           {itemList.map((itemList) => (
-            <Item entry={itemList} />
+            <ItemCard
+              title={title}
+              setTitle={setTitle}
+              entry={itemList}
+              itemId={itemId}
+              editItem={editItem}
+              setEditItem={setEditItem}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+              handleSave={handleSave}
+              setNewItem={setNewItem}
+              newItem={newItem}
+            />
           ))}
         </Stack>
       </Container>

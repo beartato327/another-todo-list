@@ -4,23 +4,37 @@ import {
   CardContent,
   Button,
   Typography,
-  TextField,
   CardHeader,
+  IconButton,
+  TextField,
 } from "@mui/material";
 
+import CardFooter from "./CardFooter";
+
 export default function Item(props: {
-  entry: {
+  entry?: {
     id: number;
     status: boolean;
     description: string;
     title: string;
   };
+  title: string;
+  setTitle: (val: string) => void;
+  itemId: number;
+  editItem: boolean;
+  setEditItem: (val: boolean) => void;
+  handleDelete: any;
+  handleEdit: any;
+  handleSave: any;
+  setNewItem: (val: boolean) => void;
+  newItem: boolean;
 }) {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 275 }} key={props.entry?.id}>
       <CardHeader
         title={
-          props.newItem ? (
+          (props.editItem && props.entry?.id === props.itemId) ||
+          (props.newItem && props.entry?.id === undefined) ? (
             <TextField
               id="standard-basic"
               label="Task Name"
@@ -36,27 +50,44 @@ export default function Item(props: {
               color="text.secondary"
               gutterBottom
             >
-              {props.entry.title}
+              {props.entry?.title}
             </Typography>
           )
         }
       ></CardHeader>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {props.entry.description}
+          {props.entry?.description}
         </Typography>
         <Typography variant="h5" component="div"></Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {props.entry.title}
+          {props.entry?.title}
         </Typography>
         <Typography variant="body2">
-          {props.entry.status ? "True" : "False"}
+          {props.entry?.status ? "True" : "False"}
           <br />
           {'"a benevolent smile"'}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
+      <CardActions
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <CardFooter
+          title={props.title}
+          setTitle={props.setTitle}
+          id={props.entry?.id}
+          itemId={props.itemId}
+          editItem={props.editItem}
+          setEditItem={props.setEditItem}
+          handleDelete={props.handleDelete}
+          handleEdit={props.handleEdit}
+          handleSave={props.handleSave}
+          setNewItem={props.setNewItem}
+          newItem={props.newItem}
+        />
       </CardActions>
     </Card>
   );
