@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import CardFooter from "./CardFooter";
+import CardFooter from "./TaskFooter";
 
 export default function Item(props: {
   entry?: {
