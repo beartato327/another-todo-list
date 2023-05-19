@@ -20,7 +20,7 @@ const Task = (props: {
     const [editItem, setEditItem] = useState(false);
     return (
     <Card sx={{ minWidth: 275 }} key={props.taskItem?.id}>
-        <TaskHeader task={task} setTask={props.setTask} setTasks={props.setTasks} taskItem={props.taskItem} newItem={newItem} editItem={editItem}/>
+        <TaskHeader task={props.task} setTask={props.setTask} setTasks={props.setTasks} taskItem={props.taskItem} newItem={newItem} editItem={editItem}/>
         <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {props.taskItem?.description}
