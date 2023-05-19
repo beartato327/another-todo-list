@@ -8,6 +8,7 @@ import { useState } from "react";
 //import "./App.css";
 import ItemCard from "./components/ItemCard";
 import NewCard from "./components/NewCard";
+import Task from "./components/Task";
 import { Slide, Typography } from "@mui/material";
 
 function App() {
@@ -21,38 +22,30 @@ function App() {
     },
   ];
 
+  let emptyTask = {
+    id: null,
+    title: "",
+    description: "",
+    status: false,
+  };
+
   const [newItem, setNewItem] = useState(false);
   const [editItem, setEditItem] = useState(false);
   const [title, setTitle] = useState<string | null>(null);
-  const [itemList, setItemList] = useState(dummy_list);
+  const [tasks, setTasks] = useState(dummy_list);
+  const [task, setTask] = useState(emptyTask);
   const [itemId, setItemId] = useState(0);
 
   const handleSave = (title: string) => {
     let newItem = {
-      id: itemList.length + 1,
+      id: tasks.length + 1,
       status: false,
       title: title,
       description: "new!",
     };
-    itemList.unshift(newItem);
-    setItemList(itemList);
+    tasks.unshift(newItem);
+    setTasks(tasks);
     setNewItem(false);
-  };
-  console.log(title);
-  const handleEdit = (id: number) => {
-    setEditItem(true);
-    setItemId(id);
-
-    setTitle(
-      itemList
-        .filter((index) => index.id === id)
-        .map((obj) => obj.title)
-        .toString()
-    );
-  };
-
-  const handleDelete = (id: number) => {
-    setItemList(itemList.filter((index) => index.id !== id));
   };
 
   return (
@@ -83,7 +76,8 @@ function App() {
         </Box>
         <Stack spacing={2}>
           {newItem ? (
-            <ItemCard
+            <Task />
+           /*  <ItemCard
               title={title}
               setTitle={setTitle}
               itemId={itemId}
@@ -93,24 +87,13 @@ function App() {
               handleSave={handleSave}
               setNewItem={setNewItem}
               newItem={newItem}
-            />
+            /> */
           ) : (
             <div></div>
           )}
-          {itemList.map((itemList) => (
-            <ItemCard
-              title={title}
-              setTitle={setTitle}
-              entry={itemList}
-              itemId={itemId}
-              editItem={editItem}
-              setEditItem={setEditItem}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-              handleSave={handleSave}
-              setNewItem={setNewItem}
-              newItem={newItem}
-            />
+          {tasks.map((taskItem) => (
+            <Task taskItem={taskItem} tasks={tasks} task={task} setTasks={setTasks} setTask={setTask}/>
+            
           ))}
         </Stack>
       </Container>
