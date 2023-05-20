@@ -10,6 +10,7 @@ const TaskHeader = (props:{
 };
 task: any;
 setTask: any;
+tasks: any;
 setTasks: any;
 newItem: any;
 editItem: any;

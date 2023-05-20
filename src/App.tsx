@@ -47,6 +47,7 @@ function App() {
     setTasks(tasks);
     setNewItem(false);
   };
+  console.log(tasks)
 
   return (
     <Box sx={{ mx: "auto", width: "100vw" }}>

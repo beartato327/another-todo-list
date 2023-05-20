@@ -1,8 +1,9 @@
-import { Card, CardContent, CardActions, Typography } from "@mui/material";
+import { Card, CardContent, CardActions, Typography, Stack, Checkbox } from "@mui/material";
 import { useState } from "react";
 
 import TaskFooter from "./TaskFooter";
 import TaskHeader from "./TaskHeader"
+import { onCheckboxChange } from "../handlers/InputHandler";
 
 const Task = (props: {
     taskItem?: {
@@ -16,23 +17,25 @@ const Task = (props: {
     task: any;
     setTask: any;
 }) => {
-    const [newItem, setNewItem] = useState(false);
-    const [editItem, setEditItem] = useState(false);
+    const [newItem, setNewItem] = useState<boolean>(false);
+    const [editItem, setEditItem] = useState<boolean>(false);
+    const [checked, setChecked] = useState<boolean | undefined>(props.taskItem?.status)
     return (
     <Card sx={{ minWidth: 275 }} key={props.taskItem?.id}>
-        <TaskHeader task={props.task} setTask={props.setTask} setTasks={props.setTasks} taskItem={props.taskItem} newItem={newItem} editItem={editItem}/>
+        <TaskHeader task={props.task} setTask={props.setTask} tasks={props.tasks} setTasks={props.setTasks} taskItem={props.taskItem} newItem={newItem} editItem={editItem}/>
         <CardContent>
+            <Stack direction="row" spacing={3}>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {props.taskItem?.description}
+                <Checkbox checked={props.taskItem?.status} onClick={(e) => onCheckboxChange(e, "status", props.setTask, props.taskItem, props.tasks, props.setTasks)}  />
+                {props.taskItem?.status}
             </Typography>
             <Typography variant="h5" component="div"></Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {props.taskItem?.title}
+                {props.taskItem?.description}
             </Typography>
+            
+            </Stack>
             <Typography variant="body2">
-                {props.taskItem?.status ? "True" : "False"}
-                <br />
-                {'"a benevolent smile"'}
             </Typography>
         </CardContent>
         <CardActions
